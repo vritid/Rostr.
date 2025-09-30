@@ -50,4 +50,4 @@ def get_player_years():
         return jsonify({})
 
 
-app.run("0.0.0.0", port=6969, debug=True)
+app.run("0.0.0.0", port=7000, debug=True)
