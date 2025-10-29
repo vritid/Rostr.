@@ -2,7 +2,9 @@ from flask import Blueprint, request, jsonify
 from database.data_access_interface import PlayerDataAccessInterface
 from database.entities.player_entity import PlayerEntity
 import pybaseball
+from pybaseball import pitching_stats
 import rapidfuzz
+from interactors.pitcher_grading_service import PitcherGradingService
 
 
 class PlayerInteractor:
@@ -76,6 +78,26 @@ class PlayerInteractor:
 
             if already_on_team:
                 return jsonify({"error": "Player already exists on this team"}), 409
+            
+            #Get the pitcher's stats
+            data = pitching_stats(2025)
+            player_data = data[data['Name'].str.lower() == player_name.lower()]
+
+            if player_data.empty:
+                return jsonify({"error": f"No stats found for {player_name}"}), 404
+            
+            strikeout_rate = float(player_data.iloc[0]['K%'])
+            innings_pitched = float(player_data.iloc[0]['IP'])
+            era = float(player_data.iloc[0]['ERA'])
+
+            stats = {
+                "K%": strikeout_rate,
+                "IP": innings_pitched,
+                "ERA": era
+            }
+
+            # Calculate grade
+            grade = PitcherGradingService.calculate_pitcher_grade(stats)
 
             # Create entity
             player_entity = PlayerEntity(
@@ -83,7 +105,8 @@ class PlayerInteractor:
                 player_name=player_name,
                 mlbid=mlbid,
                 idfg=idfg,
-                position=position
+                position=position,
+                grade = grade
             )
 
             # Use interface (SQL or other)
