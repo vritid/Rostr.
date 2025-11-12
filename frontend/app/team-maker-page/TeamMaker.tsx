@@ -5,6 +5,7 @@ import { createTeam, deleteTeam, fetchUserTeams, fetchTeamPlayers } from "./api/
 import { classNames } from "./utils"
 import { getUserFromJWT } from "~/utils/getToken"
 import SignOutButton from "~/components/sign-out-button"
+import { Link } from "react-router-dom"
 
 interface Team {
   team_id: number;
