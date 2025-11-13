@@ -146,7 +146,7 @@ export default function TeamMaker() {
           <SignOutButton />
         </div>
 
-        <div className="rounded-2xl bg-white p-4 shadow space-y-3">
+        <div className="rounded-2xl bg-sky-100 p-4 shadow space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
             <div>
               <label className="text-sm font-medium text-gray-700">
@@ -219,22 +219,29 @@ export default function TeamMaker() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <PitcherSearchCard
-              teamId={selectedTeamId ?? 0}
-              players={players}
-              onRosterChange={() => setRosterRefreshFlag((f) => f + 1)}
-            />
+        {/* Replace unconditional grid with conditional rendering based on selectedTeamId */}
+        {selectedTeamId !== null ? (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <PitcherSearchCard
+                teamId={selectedTeamId ?? 0}
+                players={players}
+                onRosterChange={() => setRosterRefreshFlag((f) => f + 1)}
+              />
+            </div>
+            <div>
+              <PitcherRoster
+                teamId={selectedTeamId ?? 0}
+                players={players}
+                onRosterChange={() => setRosterRefreshFlag((f) => f + 1)}
+              />
+            </div>
           </div>
-          <div>
-            <PitcherRoster
-              teamId={selectedTeamId ?? 0}
-              players={players}
-              onRosterChange={() => setRosterRefreshFlag((f) => f + 1)}
-            />
+        ) : (
+          <div className="rounded-lg bg-sky-100 p-4 text-sm text-gray-600">
+            Please select or create a team to manage pitchers.
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
