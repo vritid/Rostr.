@@ -34,7 +34,8 @@ class PlayerController:
         matches = rapidfuzz.process.extract(
             searched_name,
             self.all_pitcher_data["Name"],
-            score_cutoff=0.7
+            score_cutoff=0.7,
+            limit=1000
         )
 
         matched_players_data = self.all_pitcher_data[
@@ -99,6 +100,9 @@ class PlayerController:
             # Calculate grade
             grade = PitcherGradingService.calculate_pitcher_grade(stats)
 
+            #Generate grade analysis
+            analysis = PitcherGradingService.analyze_pitcher(stats, grade)
+
             # Create entity
             player_entity = PlayerEntity(
                 team_id=team_id,
@@ -106,7 +110,8 @@ class PlayerController:
                 mlbid=mlbid,
                 idfg=idfg,
                 position=position,
-                grade = grade
+                grade = grade,
+                analysis = analysis
             )
 
             # Use interface (SQL or other)
@@ -124,10 +129,10 @@ class PlayerController:
             return jsonify({"error": "Player name required"}), 400
 
         try:
-            result = self.player_data_access.delete(player_name)
+            result = self.player_data_access.delete(player_name, team_id)
             if not result:
                 return jsonify({"error": "Player not found"}), 404
-            return jsonify({"message": f"Removed player {player_name}"}), 200
+            return jsonify({"idfg": result["idfg"]}), 200
 
         except Exception as e:
             return jsonify({"error": str(e)}), 400
