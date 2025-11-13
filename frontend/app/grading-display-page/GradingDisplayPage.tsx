@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_URL } from "~/config";
 
 interface Pitcher {
   player_name: string;
@@ -28,7 +29,7 @@ export default function GradingDisplayPage() {
 
     const fetchPitchers = async () => {
       try {
-        const res = await fetch(`http://localhost:5006/api/teams/${teamId}/players`);
+        const res = await fetch(`${API_URL}/api/teams/${teamId}/players`);
         if (!res.ok) throw new Error("Failed to fetch pitchers");
         const data = await res.json();
         setPitchers(data);
@@ -44,7 +45,7 @@ export default function GradingDisplayPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#F5DBD5] text-gray-900">
+      <div className="flex items-center justify-center min-h-screen bg-white text-gray-900">
         <p className="text-lg">Loading pitcher grades...</p>
       </div>
     );
@@ -52,11 +53,11 @@ export default function GradingDisplayPage() {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5DBD5] text-gray-900">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white text-gray-900">
         <h1 className="text-2xl font-bold mb-4 text-red-600">Error</h1>
         <p>{error}</p>
         <a
-          href="/"
+          href="/team-maker"
           className="mt-6 bg-[#562424] text-white px-4 py-2 rounded-xl hover:bg-[#734343]"
         >
           Back to Team Maker
@@ -76,7 +77,7 @@ export default function GradingDisplayPage() {
       : "N/A";
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-[#F5DBD5] py-10 text-gray-900">
+    <div className="flex flex-col items-center min-h-screen bg-white py-10 text-gray-900">
       <h1 className="text-4xl font-bold mb-4">Pitcher Grades</h1>
 
       <p className="text-xl mb-6">
@@ -84,7 +85,7 @@ export default function GradingDisplayPage() {
         <span className="text-[#562424] font-bold">{avgGrade}</span>
       </p>
 
-      <div className="w-full max-w-2xl bg-white shadow rounded-2xl p-6 mb-16">
+      <div className="w-full max-w-2xl bg-sky-50 shadow rounded-2xl p-6 mb-16">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-gray-200">
@@ -152,7 +153,7 @@ export default function GradingDisplayPage() {
       <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-10 mb-12 px-4">
 
         {/* Pitcher Grade Scale */}
-        <div className="flex-1 bg-white shadow rounded-2xl p-6">
+        <div className="flex-1 bg-sky-50 shadow rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-4">Pitcher Grade Scale</h2>
           <table className="w-full border-collapse text-left">
             <thead>
@@ -193,7 +194,7 @@ export default function GradingDisplayPage() {
         </div>
 
         {/* Team Grade Scale */}
-        <div className="flex-1 bg-white shadow rounded-2xl p-6">
+        <div className="flex-1 bg-sky-50 shadow rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-4">Team Average Grade Scale</h2>
           <table className="w-full border-collapse text-left">
             <thead>
@@ -230,12 +231,11 @@ export default function GradingDisplayPage() {
       </div>
 
       <a
-        href="/"
-        className="mt-8 bg-[#562424] text-white px-4 py-2 rounded-xl hover:bg-[#734343]"
+        href="/team-maker"
+        className="rounded-xl bg-sky-400 text-white border border-sky-400 px-4 py-2 text-sm font-semibold shadow hover:bg-sky-500 transition-opacity duration-200 ease-in-out hover:opacity-90 hover:cursor-pointer"
       >
         Back to Team Maker
       </a>
     </div>
   );
 }
-
