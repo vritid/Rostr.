@@ -5,8 +5,8 @@ interface NavbarProps {
 
 export function Navbar({ currentPage, onNavigate }: NavbarProps) {
   return (
-    <nav className="sticky top-0 bg-[#5C0A0A] z-50">
-      <div className="container flex mx-auto justify-between text-[#FFF5E1] py-4">
+    <nav className="sticky top-0 bg-[#121212] z-50">
+      <div className="container flex mx-auto justify-between text-white py-4">
         <button
           onClick={() => window.location.reload()}
           className="flex hover:opacity-80 transition-opacity cursor-pointer"
