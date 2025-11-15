@@ -59,9 +59,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-block mb-8 px-6 py-2.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-              ⚾ Fantasy Baseball Analytics
-            </div>
             <h1 className="mb-10 text-6xl lg:text-8xl tracking-tight leading-tight font-extrabold">
               Know Your Roster.<br />Own Your League.
             </h1>
@@ -131,28 +128,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="py-20 border-y bg-card">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 gap-12 max-w-5xl mx-auto text-center">
-            <div>
-              <div className="text-6xl mb-3 text-primary tracking-tight font-extrabold">50K+</div>
-              <div className="text-base text-muted-foreground uppercase tracking-wider">Managers</div>
-            </div>
-            <div>
-              <div className="text-6xl mb-3 text-primary tracking-tight font-extrabold">&lt;10s</div>
-              <div className="text-base text-muted-foreground uppercase tracking-wider">Analysis</div>
-            </div>
-            <div>
-              <div className="text-6xl mb-3 text-primary tracking-tight font-extrabold">24/7</div>
-              <div className="text-base text-muted-foreground uppercase tracking-wider">Access</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
-      <section className="py-32 bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-32 bg-gradient-to-b from-muted/30 to-background border-y">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="mb-6 text-6xl tracking-tight font-extrabold">Built for the Diamond</h2>
