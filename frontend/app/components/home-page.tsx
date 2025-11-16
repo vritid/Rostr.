@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { BarChart3, Users, Target, Zap } from 'lucide-react';
 import type { Page } from '../routes/home';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { AuthModal } from '../sign-in-page/AuthModal';
+import { AuthModal } from '~/components/auth-page';
 import { getUserFromJWT } from '~/utils/getToken';
 
 interface HomePageProps {
@@ -49,7 +49,7 @@ export function HomePage({ onNavigate, onOpenAuth }: HomePageProps) {
   if (showAuthForm) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95">
-        <AuthModal mode={initialMode} onClose={() => setShowAuthForm(false)} />
+        <AuthModal {...({ mode: initialMode, onClose: () => setShowAuthForm(false) } as any)} />
       </div>
     );
   }

@@ -1,6 +1,8 @@
+import type { Page } from "~/routes/home";
+
 interface NavbarProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
+  currentPage: Page;
+  onNavigate: (page: Page) => void;
   onOpenAuth?: (mode: "signin" | "signup") => void;
   onGradeClick?: () => void;
 }
