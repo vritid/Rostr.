@@ -7,13 +7,12 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import { AuthModal } from '../sign-in-page/AuthModal';
 import { getUserFromJWT } from '~/utils/getToken';
 
-// TODO: update all text
-
 interface HomePageProps {
   onNavigate: (page: Page) => void;
+  onOpenAuth?: (mode: 'signin' | 'signup') => void;
 }
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage({ onNavigate, onOpenAuth }: HomePageProps) {
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [initialMode, setInitialMode] = useState<'signin' | 'signup'>('signin');
   const [userInfo, setUserInfo] = useState<{ username?: string; userID?: string } | null>(null);
@@ -33,7 +32,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
     }
   }, []);
 
-  // If not authenticated -> show modal, otherwise navigate to grading page (optionally with teamId)
+  // If not authenticated, show modal
+  // Otherwise, navigate to grading page (optionally with teamId)
   const handleGradeClick = (teamId?: number) => {
     const token = localStorage.getItem('jwtToken');
     const info = getUserFromJWT(token ?? '');
@@ -45,7 +45,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
     }
   };
 
-  // New: when the auth modal should be shown, render only the modal in a full-screen container
+  // When the auth modal should be shown, render only the modal in a full-screen container
   if (showAuthForm) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95">
@@ -56,8 +56,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-32 lg:py-48 overflow-hidden">
+      {/* What the user sees upon landing */}
+      <section id="home" className="relative py-32 lg:py-48 overflow-hidden">
 
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
@@ -82,6 +82,10 @@ export function HomePage({ onNavigate }: HomePageProps) {
             <Button
               size="lg"
               className="w-60 text-xl px-6 h-16 rounded-full bg-[#070738] text-white hover:bg-[#111184] transition-all duration-200 cursor-pointer"
+              onClick={() => {
+                if (onOpenAuth) onOpenAuth('signup');
+                else onNavigate('auth');
+              }}
             >
               Start Grading
             </Button>
@@ -89,6 +93,12 @@ export function HomePage({ onNavigate }: HomePageProps) {
               size="lg"
               variant="outline"
               className="w-60 text-xl px-6 h-16 rounded-full border-2 border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-50 hover:text-[#070738] cursor-pointer"
+              onClick={() => {
+                const el = document.getElementById('how-it-works');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
             >
               Learn More
             </Button>
@@ -97,8 +107,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* Image Feature Section */}
-      <section className="py-28">
+      {/* About */}
+      <section id="about" className="py-28">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
             <div className="relative h-[500px] rounded-3xl overflow-hidden border-2">
@@ -209,7 +219,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* How It Works */}
-      <section className="py-28 bg-card">
+      <section id="how-it-works" className="py-28 bg-card">
         <div className="container mx-auto px-6 text-[#070738]">
           <div className="max-w-5xl mx-auto text-center mb-24">
             <h2 className="mb-6 text-6xl tracking-tight font-extrabold">From Roster to Results</h2>
