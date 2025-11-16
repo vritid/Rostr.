@@ -6,7 +6,12 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Trophy } from 'lucide-react';
 
-export function AuthPage() {
+interface AuthPageProps {
+  initialMode?: 'signin' | 'signup';
+  onGoToHomeSection?: (sectionId: 'about' | 'how-it-works') => void;
+}
+
+export function AuthPage({ initialMode = 'signup', onGoToHomeSection }: AuthPageProps) {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [signupName, setSignupName] = useState('');
@@ -41,7 +46,7 @@ export function AuthPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs key={initialMode} defaultValue={initialMode === 'signin' ? 'login' : 'signup'} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 h-12">
             <TabsTrigger value="login" className="text-base">Sign In</TabsTrigger>
             <TabsTrigger value="signup" className="text-base">Sign Up</TabsTrigger>
