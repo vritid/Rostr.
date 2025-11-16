@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HomePage } from "~/components/home-page";
-import { AuthPage } from "~/components/auth-page";
+import { AuthModal } from "~/components/auth-page";
 import { Navbar } from "~/components/navbar";
 import type { Route } from "./+types/home";
 
@@ -32,12 +32,12 @@ export default function Home() {
       else window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 50);
   };
-
+  
   return (
     <div className="min-h-screen bg-background">
       <Navbar currentPage={currentPage} onNavigate={setCurrentPage} onOpenAuth={handleOpenAuth} />
       {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} onOpenAuth={handleOpenAuth} />}
-      {currentPage === 'auth' && <AuthPage initialMode={authMode} onGoToHomeSection={goToHomeSection} />}
+      {currentPage === 'auth' && <AuthModal initialMode={authMode} onGoToHomeSection={goToHomeSection} onClose={() => setCurrentPage('home')} />}
     </div>
   );
 }
