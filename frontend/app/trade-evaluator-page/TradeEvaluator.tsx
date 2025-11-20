@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { API_URL } from "~/config"
 import { fetchTeamPlayers, fetchPitchers } from "~/team-maker-page/api/teamRoster"
 
 interface Player {
@@ -84,7 +85,7 @@ function SideBSearch({ players, setPlayers }: SideBSearchProps) {
   const isAdded = (idfg: string) => players.some((p) => p.IDfg === idfg)
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow space-y-4">
+    <div className="rounded-2xl p-4 shadow space-y-4 bg-sky-100">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Other Team</h2>
         <p className="text-xs text-gray-500">Search and add pitchers.</p>
@@ -138,7 +139,7 @@ function SideBSearch({ players, setPlayers }: SideBSearchProps) {
       {/* Search results table */}
       <div className="overflow-hidden rounded-2xl border bg-white shadow">
         <table className="min-w-full text-left text-xs">
-          <thead className="bg-gray-50">
+          <thead className="bg-sky-200">
             <tr>
               <th className="px-3 py-2">Name</th>
               <th className="px-3 py-2">Team</th>
@@ -246,7 +247,7 @@ export default function TradeEvaluator() {
     setError(null)
     setResult(null)
     try {
-      const res = await fetch("http://localhost:5006/api/trade/evaluate", {
+      const res = await fetch(`${API_URL}/api/trade/evaluate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -285,7 +286,7 @@ export default function TradeEvaluator() {
         )}
 
         {/* 🔥 Strategy selection */}
-        <div className="rounded-2xl bg-gray-50 p-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="rounded-2xl bg-gray-100 p-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-sm font-semibold text-gray-800">
             Fantasy Strategy / Profile
           </div>
@@ -357,7 +358,7 @@ export default function TradeEvaluator() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/*  My Team: your team */}
-          <div className="rounded-2xl bg-white p-4 shadow space-y-3">
+          <div className="rounded-2xl p-4 shadow space-y-3 bg-sky-100">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-semibold">Your Team</h2>
               {loadingTeam && (
@@ -371,8 +372,8 @@ export default function TradeEvaluator() {
               </p>
             ) : (
               <div className="max-h-80 overflow-y-auto rounded-xl border border-gray-100">
-                <table className="min-w-full text-left text-xs">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full text-left text-xs bg-white">
+                  <thead className="bg-sky-200">
                     <tr>
                       <th className="px-3 py-2">Select</th>
                       <th className="px-3 py-2">Name</th>
