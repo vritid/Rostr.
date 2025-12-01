@@ -32,6 +32,7 @@ interface TradeResult {
 interface SideBSearchProps {
   players: PitcherData[]
   setPlayers: React.Dispatch<React.SetStateAction<PitcherData[]>>
+  teamPlayers: Player[]
 }
 
 const PROFILE_OPTIONS = [
@@ -43,7 +44,7 @@ const PROFILE_OPTIONS = [
   { value: "sabermetrics", label: "Sabermetrics / xFIP" },
 ]
 
-function SideBSearch({ players, setPlayers }: SideBSearchProps) {
+function SideBSearch({ players, setPlayers, teamPlayers }: SideBSearchProps) {
   const [name, setName] = useState("")
   const [results, setResults] = useState<PitcherData[]>([])
   const [loading, setLoading] = useState(false)
@@ -59,8 +60,29 @@ function SideBSearch({ players, setPlayers }: SideBSearchProps) {
       setLoading(true)
       try {
         const data = await fetchPitchers({ name })
-        setResults(data)
-        setError(data.length === 0 ? "No pitchers found." : null)
+        // Filter out any pitchers who are already on the user's team.
+        // Normalize everything to strings first to avoid calling toLowerCase on non-strings.
+        const teamIdfgSet = new Set(
+          teamPlayers
+            .map((tp) => String(tp.idfg || "").toLowerCase())
+            .filter((s) => s.length > 0)
+        )
+        const teamNameSet = new Set(
+          teamPlayers.map((tp) => String(tp.player_name || "").toLowerCase())
+        )
+        const filtered = data.filter((p) => {
+          const idfg = String(p.IDfg || "").toLowerCase()
+          const nameLower = String(p.Name || "").toLowerCase()
+          return !teamIdfgSet.has(idfg) && !teamNameSet.has(nameLower)
+        })
+        setResults(filtered)
+        setError(
+          filtered.length === 0
+            ? data.length === 0
+              ? "No pitchers found."
+              : "No pitchers found — results may be hidden because they are on your team."
+            : null
+        )
       } catch (e: any) {
         setError(e.message || "Failed to fetch pitchers")
         setResults([])
@@ -71,7 +93,7 @@ function SideBSearch({ players, setPlayers }: SideBSearchProps) {
 
     const timeout = setTimeout(doFetch, 400)
     return () => clearTimeout(timeout)
-  }, [name])
+  }, [name, teamPlayers]) // re-run when team players change so filtered results update
 
   const handleAdd = (p: PitcherData) => {
     if (players.some((x) => x.IDfg === p.IDfg)) return
@@ -316,7 +338,7 @@ export default function TradeEvaluator() {
         )}
 
         {result && (
-          <div className="bg-white rounded-2xl shadow p-4 mt-6 space-y-2">
+          <div className="bg-gray-50 rounded-2xl shadow p-4 mt-6 space-y-2">
             <h2 className="text-xl font-bold">Trade Summary</h2>
             <p>My Team Total: {result.sideA.total_grade.toFixed(2)}</p>
             <p>Other Team Total: {result.sideB.total_grade.toFixed(2)}</p>
@@ -372,12 +394,11 @@ export default function TradeEvaluator() {
               </p>
             ) : (
               <div className="max-h-80 overflow-y-auto rounded-xl border border-gray-100">
-                <table className="min-w-full text-left text-xs bg-white">
-                  <thead className="bg-sky-200">
+                <table className="min-w-full text-left text-sm bg-white">
+                  <thead className="bg-sky-200 text-lg">
                     <tr>
                       <th className="px-3 py-2">Select</th>
                       <th className="px-3 py-2">Name</th>
-                      <th className="px-3 py-2">Pos</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -393,7 +414,6 @@ export default function TradeEvaluator() {
                             />
                           </td>
                           <td className="px-3 py-2 font-medium">{p.player_name}</td>
-                          <td className="px-3 py-2 text-gray-700">{p.position}</td>
                         </tr>
                       )
                     })}
@@ -421,7 +441,7 @@ export default function TradeEvaluator() {
           </div>
 
           {/* Other Team: search */}
-          <SideBSearch players={sideBPlayers} setPlayers={setSideBPlayers} />
+          <SideBSearch players={sideBPlayers} setPlayers={setSideBPlayers} teamPlayers={teamPlayers} />
         </div>
       </div>
     </div>

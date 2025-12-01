@@ -47,17 +47,17 @@ export function Navbar({ onNavigate, onOpenAuth }: NavbarProps) {
   };
 
   if (isSignedIn) {
-    // white link style for signed-in page links
-    const baseClass =
-      "rounded-xl px-4 mx-2 py-2 text-sm font-semibold shadow transition-colors duration-150 border cursor-pointer ";
-    const inactiveClass = "bg-white text-[#070738] border-white hover:bg-sky-50 hover:opacity-95";
-    const activeClass = "bg-slate-300 text-[#070738] border-white opacity-95"; // slightly darker for active
+    // Replace the previous pill button styles with plain text link styles that match the signed-out navbar.
+    // Active page will show an underline using the existing currentPageKey matching logic.
+    const baseClass = "hover:opacity-80 transition-all cursor-pointer text-lg px-3 py-2";
+    const inactiveExtras = "text-white font-medium";
+    const activeExtras = "text-white underline";
 
     const btnClassFor = (segments: string | string[]) => {
       const matches = Array.isArray(segments)
         ? segments.includes(currentPageKey)
         : currentPageKey === segments;
-      return baseClass + (matches ? activeClass : inactiveClass);
+      return baseClass + (matches ? ` ${activeExtras}` : ` ${inactiveExtras}`);
     };
 
     return (
@@ -69,29 +69,31 @@ export function Navbar({ onNavigate, onOpenAuth }: NavbarProps) {
               onClick={() => window.location.reload()}
               className="flex hover:opacity-80 transition-opacity cursor-pointer"
             >
-              <span className="tracking-tight text-4xl font-extrabold">rostr.</span>
+              <span className="tracking-tight text-4xl font-extrabold">Rostr.</span>
             </button>
           </div>
 
           {/* Right: Signed-in page links */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-10 text-lg font-medium">
             <button onClick={() => navigateWithParams("/team-maker")} className={btnClassFor("team-maker")}>
               Team Maker
             </button>
             <button onClick={() => navigateWithParams("/grading-display")} className={btnClassFor(["grading-display", "lineup-recommendation"])}>
-              Grading & Line-up Suggestion
+              Starting Rotation
             </button>
-            {/* include opponentTeamId for Opponent Team */}
             <button onClick={() => navigateWithParams("/opponent-weaknesses", true)} className={btnClassFor("opponent-weaknesses")}>
               Opponent Team
             </button>
-            {/* include opponentTeamId for Counter Lineup */}
             <button onClick={() => navigateWithParams("/counter-lineup", true)} className={btnClassFor("counter-lineup")}>
               Counter Lineup
             </button>
+             {/* include TeamId for Counter Lineup */}
             <button onClick={() => navigateWithParams("/trade-evaluator")} className={btnClassFor("trade-evaluator")}>
               Trade Analyzer
-            </button>
+              </button>
+              <button onClick={() => navigateWithParams("/stats-page")} className={btnClassFor("stats-page")}>
+              Baseball Stats Guide
+              </button>
             <SignOutButton />
           </div>
         </div>
@@ -106,7 +108,7 @@ export function Navbar({ onNavigate, onOpenAuth }: NavbarProps) {
           onClick={() => window.location.reload()}
           className="flex hover:opacity-80 transition-opacity cursor-pointer"
         >
-          <span className="tracking-tight text-4xl font-extrabold">rostr.</span>
+          <span className="tracking-tight text-4xl font-extrabold">Rostr.</span>
         </button>
 
         <div className="flex gap-10 text-lg font-medium">

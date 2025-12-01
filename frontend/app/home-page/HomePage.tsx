@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { BarChart3, Users, Target, Zap } from 'lucide-react';
 import type { Page } from '../routes/home';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { ImageWithFallback } from '../components/ui/ImageWithFallback';
 import { AuthModal } from '~/sign-in-page/AuthModal';
 import { getUserFromJWT } from '~/utils/getToken';
 
@@ -257,7 +257,7 @@ export function HomePage({ onNavigate, onOpenAuth }: HomePageProps) {
             onClick={() => window.location.reload()}
             className="flex hover:opacity-80 transition-opacity cursor-pointer"
           >
-            <span className="tracking-tight text-4xl font-extrabold">Rostr.</span>
+            <span className="tracking-tight text-4xl font-extrabold pr-10">Rostr.</span>
           </button>
         </div>
       </footer>
