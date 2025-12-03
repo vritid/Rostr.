@@ -4,3 +4,5 @@ from .team_controller import TeamController
 from .player_controller import PlayerController
 from .trade_controller import TradeController
 from .opponent_controller import OpponentController
+from .add_player_controller import AddPlayerController
+from .recommend_lineup_controller import RecommendLineupController
