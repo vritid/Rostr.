@@ -42,7 +42,7 @@ The codebase is organized by component and layer: frontend, backend, and databas
 - [Lucinda Li] https://github.com/Lucinda-Li
 - [Mustafa Majeed] https://github.com/MustafaMaj23
 - [Rui Weng] https://github.com/r-weng
-- 
+  
 ---
 ## System Architecture
 **Stack & Hosting:**  
