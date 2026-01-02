@@ -36,7 +36,7 @@ How to Use:
 
 **Tech Stack & Hosting:**  
 - **Frontend:** React  
-- **Backend:** Node.js + Express  
+- **Backend:** Node.js  
 - **Database:** PostgreSQL  
 - **Containerization & Deployment:** Docker/Docker Compose for development; production-ready deployment architecture  
 
