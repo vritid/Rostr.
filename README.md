@@ -31,11 +31,31 @@ How to Use:
 4. Make trades and adjust your lineup based on insights.
 
 ---
-## Code Architecture
-**Overview:**  
-The codebase is organized by component and layer: frontend, backend, and database. Naming conventions follow PascalCase for components/classes and camelCase for functions/variables.  
+
+## System Architecture
+
+**Tech Stack & Hosting:**  
+- **Frontend:** React  
+- **Backend:** Node.js + Express  
+- **Database:** PostgreSQL  
+- **Containerization & Deployment:** Docker/Docker Compose for development; production-ready deployment architecture  
+
+**Component Interaction:**  
+- Frontend interacts with backend via REST APIs.  
+- Backend combines **agentic decision logic**, database queries, and statistical modeling to generate real-time recommendations.  
+- Docker Compose orchestrates all services for seamless development and testing; architecture supports scalable deployment for live data pipelines.  
 
 ---
+
+## Code Highlights
+
+- **Agentic Decision Logic:** Encodes sequential decision-making strategies for lineup recommendations, simulating multiple scenarios for optimal outcomes.  
+- **Data Pipelines:** ETL workflows ingest and process historical and live fantasy baseball data.  
+- **Modeling & Evaluation:** Regression and classification models (scikit-learn) track performance iteratively, improving recommendation reliability.  
+- **Production-Grade APIs:** Real-time predictions delivered through secure REST endpoints, with full Git/GitHub version control and code review workflows.  
+
+---
+
 ## Team Bios
 - [Vriti Dahiya] https://github.com/vritid
 - [Jason Li] https://github.com/jasonli0616
@@ -44,21 +64,11 @@ The codebase is organized by component and layer: frontend, backend, and databas
 - [Rui Weng] https://github.com/r-weng
   
 ---
-## System Architecture
-**Stack & Hosting:**  
-- **Frontend:** React
-- **Backend:** Node.js/Express
-- **Database:** PostgreSQL
-- **Containerization:** Docker, managed via Docker Compose  
 
-**Component Interaction:**  
-The frontend communicates with the backend via REST APIs. The backend queries the database and returns responses to the frontend. Docker Compose ensures seamless networking between all services during development and deployment.  
+## Installation & Development
 
----
-
-## Installation & Running
-**Development Mode:**  
 1. Install [Docker](https://www.docker.com/).  
-2. From the **project directory**, run:
+2. Clone the repository and navigate to the project root.  
+3. Build and start services:  
 ```bash
 docker compose up --build
